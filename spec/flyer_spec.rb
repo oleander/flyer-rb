@@ -121,4 +121,15 @@ describe Flyer::Notification do
       expect(page).to have_content("My custom message")
     end
   end
+
+  it "should pass params" do
+    Flyer::Notification.init do |config|
+      config.id = id
+      config.message { 1 }
+      config.params = { data: "This is data" }
+    end
+
+    visit data_path
+    expect(page).to have_content("This is data")
+  end
 end

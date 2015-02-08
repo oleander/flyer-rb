@@ -1,17 +1,19 @@
 module Flyer::ControllerAdditions
   def notifications
-    found_notifications = []
-    Flyer::Notification.notifications.each do |n|
-      notification = Flyer::Notification.new(self)
-      n.call(notification)
-      notification.validate!
-      if notification.run?
-        notification.used!
-        found_notifications << notification.view
+    @notifications ||= begin
+      found_notifications = []
+      Flyer::Notification.notifications.each do |n|
+        notification = Flyer::Notification.new(self)
+        n.call(notification)
+        notification.validate!
+        if notification.run?
+          notification.used!
+          found_notifications << notification.view
+        end
       end
-    end
 
-    found_notifications
+      found_notifications
+    end
   end
 
   def self.included(base)
