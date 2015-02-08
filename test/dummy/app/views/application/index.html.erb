@@ -1,0 +1,7 @@
+<% notifications.each do |notification| %>
+  <div id="notifications" class="hide">
+    <div class="notification" data-path="<%= notification.path %>">
+      <%= notification.message %>
+    </div>
+  </div>
+<% end %>
