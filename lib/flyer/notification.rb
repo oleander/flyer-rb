@@ -41,7 +41,7 @@ class Flyer::Notification
   # Mark current notification has used
   #
   def used!
-    cookies.signed.permanent[token] = current_count + 1
+    cookies.permanent[token] = current_count + 1
   end
 
   #
@@ -104,7 +104,7 @@ class Flyer::Notification
   private
 
   def token
-    "not.#{id}"
+    "flyer.#{id}".parameterize
   end
 
   def hit_limit?
@@ -112,7 +112,7 @@ class Flyer::Notification
   end
 
   def current_count
-    cookies.signed[token].to_i
+    cookies[token].to_i
   end
 
   def cookies
