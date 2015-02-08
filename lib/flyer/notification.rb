@@ -19,6 +19,11 @@ class Flyer::Notification
     @controller = controller
   end
 
+  def validate!
+    raise IdMissingError.new unless id
+    raise MessageMissingError.new unless message
+  end
+
   def smessage(&block)
     @message = block
   end
@@ -75,5 +80,11 @@ class Flyer::Notification
   end
 
   class PathNotGivenError < StandardError
+  end
+
+  class MessageMissingError < StandardError
+  end
+
+  class IdMissingError < StandardError
   end
 end

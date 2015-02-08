@@ -83,4 +83,20 @@ describe Flyer::Notification do
 
     expect { visit path_path }.to raise_error(ActionView::Template::Error)
   end
+
+  it "should raise error on no id" do
+    Flyer::Notification.init do |config|
+      config.smessage { "This is my message" }
+    end
+
+    expect { visit root_path }.to raise_error(ActionView::Template::Error)
+  end
+
+  it "should raise error if message is missing" do
+    Flyer::Notification.init do |config|
+      config.id = id
+    end
+
+    expect { visit root_path }.to raise_error(ActionView::Template::Error)
+  end
 end
