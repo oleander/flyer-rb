@@ -107,14 +107,19 @@ describe Flyer::Notification do
       config.valid = { from: "2014-02-01", to: "2015-02-01" }
     end
 
-    Timecop.travel("2015-01-01") do
-      visit root_path
-      expect(page).to have_content("My custom message")
-    end
-
     Timecop.travel("2016-01-01") do
       visit root_path
       expect(page).not_to have_content("My custom message")
+    end
+
+    Timecop.travel("2012-01-01") do
+      visit root_path
+      expect(page).not_to have_content("My custom message")
+    end
+
+    Timecop.travel("2015-01-01") do
+      visit root_path
+      expect(page).to have_content("My custom message")
     end
   end
 end

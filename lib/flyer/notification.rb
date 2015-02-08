@@ -1,3 +1,5 @@
+require_relative "errors"
+
 class Flyer::Notification
   attr_accessor :valid, :params, :id, :limit
   @@notifications = []
@@ -50,17 +52,19 @@ class Flyer::Notification
 
   def expired?
     return false unless @valid
-    
+
     a1, a2 = false, false
     if @valid.fetch(:to)
-      a1 = Date.parse(@valid.fetch(:to)) < Date.today
+      if Date.parse(@valid.fetch(:to)) < Date.today
+        return true
+      end
     end
 
     if @valid.fetch(:from) 
-      a2 = Date.parse(@valid.fetch(:from)) > Date.today
+      if Date.parse(@valid.fetch(:from)) > Date.today
+        return true
+      end
     end
-
-    [a1, a2].any?
   end
 
   def spath(&block)
@@ -88,14 +92,5 @@ class Flyer::Notification
 
   def cookies
     @controller.send(:cookies)
-  end
-
-  class PathNotGivenError < StandardError
-  end
-
-  class MessageMissingError < StandardError
-  end
-
-  class IdMissingError < StandardError
   end
 end
