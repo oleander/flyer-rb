@@ -1,4 +1,7 @@
 module Flyer::ControllerAdditions
+  #
+  # @return Array<Flyer::ViewObject>
+  #
   def notifications
     @notifications ||= begin
       found_notifications = []
@@ -6,7 +9,7 @@ module Flyer::ControllerAdditions
         notification = Flyer::Notification.new(self)
         n.call(notification)
         notification.validate!
-        if notification.run?
+        if notification.visible?
           notification.used!
           found_notifications << notification.view
         end
