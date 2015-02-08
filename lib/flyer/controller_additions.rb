@@ -1,7 +1,7 @@
 module Flyer::ControllerAdditions
   def notifications
     found_notifications = []
-    Flyer::NOTIFICATIONS.each do |n|
+    Flyer::Notification.notifications.each do |n|
       notification = Flyer::Notification.new(self)
       n.call(notification)
       if notification.run?

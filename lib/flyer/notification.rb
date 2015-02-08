@@ -1,8 +1,17 @@
 class Flyer::Notification
   attr_accessor :expire, :params, :id, :limit
+  @@notifications = []
 
   def self.init(&block)
-    Flyer::NOTIFICATIONS << block
+    @@notifications << block
+  end
+
+  def self.reset!
+    @@notifications = []
+  end
+
+  def self.notifications
+    @@notifications
   end
 
   def initialize(controller)
@@ -16,7 +25,7 @@ class Flyer::Notification
 
   def message
     @controller.view_context.
-      instance_eval(&@message).html_safe
+      instance_eval(&@message).to_s.html_safe
   end
 
   def on(&block)
@@ -24,9 +33,10 @@ class Flyer::Notification
   end
 
   def run?
-    if not hit_limit? and not expired?
-      @on.all?{ |blk| @controller.instance_eval(&blk) }
-    end
+    return false if hit_limit?
+    return false if expired?
+    return true if @on.empty?
+    @on.any?{ |blk| @controller.instance_eval(&blk) }
   end
 
   def used!
@@ -42,6 +52,7 @@ class Flyer::Notification
   end
 
   def path
+    raise PathNotGivenError.new unless @spath
     @controller.instance_eval(&@spath)
   end
 
@@ -61,5 +72,8 @@ class Flyer::Notification
 
   def cookies
     @controller.send(:cookies)
+  end
+
+  class PathNotGivenError < StandardError
   end
 end

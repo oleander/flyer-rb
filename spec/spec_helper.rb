@@ -16,6 +16,7 @@ RSpec.configure do |config|
   config.expect_with(:rspec) { |c| c.syntax = :expect }
   config.order = :random
   config.include Capybara::DSL
+  config.include Rails.application.routes.url_helpers
 end
 
 # Filter out Minitest backtrace while allowing backtrace from other libraries

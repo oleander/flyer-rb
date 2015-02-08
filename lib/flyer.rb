@@ -1,5 +1,4 @@
 module Flyer
-  NOTIFICATIONS = []
 end
 
 require "flyer/controller_additions"
