@@ -8,16 +8,16 @@ Gem::Specification.new do |s|
   s.name        = "flyer"
   s.version     = Flyer::VERSION
   s.authors     = ["Linus Oleander"]
-  s.email       = ["linus@oleander.nu"]
-  s.homepage    = "TODO"
-  s.summary     = "TODO: Summary of Flyer."
-  s.description = "TODO: Description of Flyer."
+  s.email       = ["linus@oleander.io"]
+  s.homepage    = "https://github.com/oleander/flyer-rb"
+  s.summary     = "Display user notifications in Rails programmatically"
+  s.description = s.summary
   s.license     = "MIT"
 
-  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.rdoc"]
+  s.files = Dir["{app,config,db,lib}/**/*", "MIT-LICENSE", "Rakefile", "README.md"]
   s.test_files = Dir["test/**/*"]
 
-  s.add_dependency "rails", "~> 4.2.0"
+  s.add_dependency "rails", "~> 3.0"
 
   s.add_development_dependency "sqlite3"
   s.add_development_dependency "rspec-rails"
