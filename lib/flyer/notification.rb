@@ -26,6 +26,7 @@ class Flyer::Notification
   #
   def initialize(controller)
     @on = []
+    @limit = 1 
     @controller = controller
   end
 
