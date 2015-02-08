@@ -1,6 +1,6 @@
 # Flyer
 
-Handle user notifications in Rails programmatically.
+Display user notifications in Rails programmatically.
 
 ## Install
 
