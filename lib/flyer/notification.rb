@@ -1,5 +1,5 @@
 class Flyer::Notification
-  attr_accessor :expire, :params, :id, :limit
+  attr_accessor :valid, :params, :id, :limit
   @@notifications = []
 
   def self.init(&block)
@@ -49,7 +49,18 @@ class Flyer::Notification
   end
 
   def expired?
-    @expire && Date.parse(@expire) < Date.today
+    return false unless @valid
+    
+    a1, a2 = false, false
+    if @valid.fetch(:to)
+      a1 = Date.parse(@valid.fetch(:to)) < Date.today
+    end
+
+    if @valid.fetch(:from) 
+      a2 = Date.parse(@valid.fetch(:from)) > Date.today
+    end
+
+    [a1, a2].any?
   end
 
   def spath(&block)

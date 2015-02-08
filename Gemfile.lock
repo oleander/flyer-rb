@@ -50,7 +50,6 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
-    database_cleaner (1.2.0)
     diff-lcs (1.2.5)
     erubis (2.7.0)
     globalid (0.3.2)
@@ -129,6 +128,7 @@ GEM
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
+    timecop (0.7.1)
     tzinfo (1.2.2)
       thread_safe (~> 0.1)
     xpath (2.0.0)
@@ -139,7 +139,7 @@ PLATFORMS
 
 DEPENDENCIES
   capybara
-  database_cleaner
   flyer!
   rspec-rails
   sqlite3
+  timecop

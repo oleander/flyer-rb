@@ -9,6 +9,7 @@ require "flyer"
 require "rails/version"
 #require "action_controller"
 #require "action_controller/test_case"
+require "timecop"
 require 'capybara/rails'
 require "capybara/rspec"
 

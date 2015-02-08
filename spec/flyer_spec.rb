@@ -99,4 +99,22 @@ describe Flyer::Notification do
 
     expect { visit root_path }.to raise_error(ActionView::Template::Error)
   end
+
+  it "should handle expire" do
+    Flyer::Notification.init do |config|
+      config.id = id
+      config.smessage { "My custom message" }
+      config.valid = { from: "2014-02-01", to: "2015-02-01" }
+    end
+
+    Timecop.travel("2015-01-01") do
+      visit root_path
+      expect(page).to have_content("My custom message")
+    end
+
+    Timecop.travel("2016-01-01") do
+      visit root_path
+      expect(page).not_to have_content("My custom message")
+    end
+  end
 end
