@@ -15,6 +15,11 @@ module Flyer::ControllerAdditions
         end
       end
 
+      ids = found_notifications.map(&:id)
+      unless ids.uniq.count == ids.count
+        raise Flyer::FoundNonUniqueIds.new
+      end
+
       found_notifications
     end
   end

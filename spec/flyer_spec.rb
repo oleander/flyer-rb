@@ -168,4 +168,20 @@ describe Flyer::Notification do
     visit data_path
     expect(page).to have_content("This is data")
   end
+
+  it "should raise error if non unique ids" do
+    Flyer::Notification.init do |config|
+      config.id = id
+      config.message { 1 }
+      config.limit = 10
+    end
+
+    Flyer::Notification.init do |config|
+      config.id = id
+      config.message { 1 }
+      config.limit = 10
+    end
+
+    expect { visit root_path }.to raise_error(ActionView::Template::Error)
+  end
 end

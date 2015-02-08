@@ -1,17 +1,19 @@
 class Flyer::ViewObject
-  attr_reader :params
+  attr_reader :params, :id
 
   #
   # @controller ActionController::Base
   # @path Proc
   # @message Proc
   # @params Hash
+  # @id Object
   #
-  def initialize(controller, path, message, params)
+  def initialize(controller, path, message, params, id)
     @controller = controller
     @path       = path
     @message    = message
     @params     = params
+    @id         = id
   end
 
   #
@@ -26,7 +28,7 @@ class Flyer::ViewObject
   # @return Path / String
   #
   def path
-    raise PathNotGivenError.new unless @path
+    raise Flyer::PathNotGivenError.new unless @path
     @controller.instance_eval(&@path)
   end
 end

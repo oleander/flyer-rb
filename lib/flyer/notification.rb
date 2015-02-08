@@ -1,4 +1,3 @@
-require_relative "errors"
 require_relative "view_object"
 
 class Flyer::Notification
@@ -26,7 +25,7 @@ class Flyer::Notification
   #
   def initialize(controller)
     @on = []
-    @limit = 1 
+    @limit = 1
     @controller = controller
   end
 
@@ -34,8 +33,8 @@ class Flyer::Notification
   # Raise an error if @id or @message is missing
   #
   def validate!
-    raise IdMissingError.new unless @id
-    raise MessageMissingError.new unless @message
+    raise Flyer::IdMissingError.new unless @id
+    raise Flyer::MessageMissingError.new unless @message
   end
 
   #
@@ -78,7 +77,7 @@ class Flyer::Notification
   # @return Flyer::ViewObject Object to be passed to view
   #
   def view
-    Flyer::ViewObject.new(@controller, @path, @message, @params)
+    Flyer::ViewObject.new(@controller, @path, @message, @params, @id)
   end
 
   #
