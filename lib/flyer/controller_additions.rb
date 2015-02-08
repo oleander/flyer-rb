@@ -6,11 +6,12 @@ module Flyer::ControllerAdditions
       n.call(notification)
       notification.validate!
       if notification.run?
-        found_notifications << notification
+        notification.used!
+        found_notifications << notification.view
       end
     end
 
-    found_notifications.each(&:used!)
+    found_notifications
   end
 
   def self.included(base)

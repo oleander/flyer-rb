@@ -1,5 +1,4 @@
 describe Flyer::Notification do
-  let(:message) { SecureRandom.hex }
   let(:id) { SecureRandom.hex }
 
   before(:each) do
@@ -9,7 +8,7 @@ describe Flyer::Notification do
   it "should have a message" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { "This is my message" }
+      config.message { "This is my message" }
     end
 
     visit "/"
@@ -19,7 +18,7 @@ describe Flyer::Notification do
   it "should not appear when on is false" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { "This is another message" }
+      config.message { "This is another message" }
       config.on { false }
     end
 
@@ -30,7 +29,7 @@ describe Flyer::Notification do
   it "should handle on's as 'or'" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { "How about this?" }
+      config.message { "How about this?" }
       config.on { false }
       config.on { true }
     end
@@ -42,7 +41,7 @@ describe Flyer::Notification do
   it "should handle limit" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { "This one?" }
+      config.message { "This one?" }
       config.limit = 0
     end
 
@@ -53,7 +52,7 @@ describe Flyer::Notification do
   it "should handle limit" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { "Twice is NOT okay!" }
+      config.message { "Twice is NOT okay!" }
       config.limit = 1
     end
 
@@ -67,8 +66,8 @@ describe Flyer::Notification do
   it "should set path" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { 1 }
-      config.spath { path_path }
+      config.message { 1 }
+      config.path { path_path }
     end
 
     visit path_path
@@ -78,7 +77,7 @@ describe Flyer::Notification do
   it "should raise error if path isn't set" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { 1 }
+      config.message { 1 }
     end
 
     expect { visit path_path }.to raise_error(ActionView::Template::Error)
@@ -86,7 +85,7 @@ describe Flyer::Notification do
 
   it "should raise error on no id" do
     Flyer::Notification.init do |config|
-      config.smessage { "This is my message" }
+      config.message { "This is my message" }
     end
 
     expect { visit root_path }.to raise_error(ActionView::Template::Error)
@@ -103,7 +102,7 @@ describe Flyer::Notification do
   it "should handle expire" do
     Flyer::Notification.init do |config|
       config.id = id
-      config.smessage { "My custom message" }
+      config.message { "My custom message" }
       config.valid = { from: "2014-02-01", to: "2015-02-01" }
     end
 

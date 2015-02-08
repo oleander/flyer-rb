@@ -22,17 +22,8 @@ class Flyer::Notification
   end
 
   def validate!
-    raise IdMissingError.new unless id
-    raise MessageMissingError.new unless message
-  end
-
-  def smessage(&block)
-    @message = block
-  end
-
-  def message
-    @controller.view_context.
-      instance_eval(&@message).to_s.html_safe
+    raise IdMissingError.new unless @id
+    raise MessageMissingError.new unless @message
   end
 
   def on(&block)
@@ -53,7 +44,6 @@ class Flyer::Notification
   def expired?
     return false unless @valid
 
-    a1, a2 = false, false
     if @valid.fetch(:to)
       if Date.parse(@valid.fetch(:to)) < Date.today
         return true
@@ -67,13 +57,37 @@ class Flyer::Notification
     end
   end
 
-  def spath(&block)
-    @spath = block
+  class ViewObject < Struct.new(:controller, :path, :message, :params)
+    attr_reader :params
+
+    def initialize(controller, path, message, params)
+      @controller = controller
+      @path       = path
+      @message    = message
+      @params     = params
+    end
+
+    def message
+      @controller.view_context.
+        instance_eval(&@message).to_s.html_safe
+    end
+
+    def path
+      raise PathNotGivenError.new unless @path
+      @controller.instance_eval(&@path)
+    end
   end
 
-  def path
-    raise PathNotGivenError.new unless @spath
-    @controller.instance_eval(&@spath)
+  def view
+    ViewObject.new(@controller, @path, @message, @params)
+  end
+
+  def path(&block)
+    @path = block
+  end
+
+  def message(&block)
+    @message = block
   end
 
   private
