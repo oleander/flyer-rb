@@ -50,13 +50,13 @@ class Flyer::Notification
   def expired?
     return false unless @valid
 
-    if @valid.fetch(:to)
+    if @valid[:to]
       if Date.parse(@valid.fetch(:to)) < Date.today
         return true
       end
     end
 
-    if @valid.fetch(:from) 
+    if @valid[:from]
       if Date.parse(@valid.fetch(:from)) > Date.today
         return true
       end

@@ -99,7 +99,7 @@ describe Flyer::Notification do
     expect { visit root_path }.to raise_error(ActionView::Template::Error)
   end
 
-  it "should handle expire" do
+  it "should handle valid with both from and to" do
     Flyer::Notification.init do |config|
       config.id = id
       config.message { "My custom message" }
@@ -117,6 +117,42 @@ describe Flyer::Notification do
     end
 
     Timecop.travel("2015-01-01") do
+      visit root_path
+      expect(page).to have_content("My custom message")
+    end
+  end
+
+  it "should handle valid with just 'from'" do
+    Flyer::Notification.init do |config|
+      config.id = id
+      config.message { "My custom message" }
+      config.valid = { from: "2014-02-01" }
+    end
+
+    Timecop.travel("2016-01-01") do
+      visit root_path
+      expect(page).to have_content("My custom message")
+    end
+
+    Timecop.travel("2012-01-01") do
+      visit root_path
+      expect(page).not_to have_content("My custom message")
+    end
+  end
+
+  it "should handle valid with just 'to'" do
+    Flyer::Notification.init do |config|
+      config.id = id
+      config.message { "My custom message" }
+      config.valid = { to: "2014-02-01" }
+    end
+
+    Timecop.travel("2016-01-01") do
+      visit root_path
+      expect(page).not_to have_content("My custom message")
+    end
+
+    Timecop.travel("2012-01-01") do
       visit root_path
       expect(page).to have_content("My custom message")
     end

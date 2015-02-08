@@ -1,4 +1,4 @@
-class Flyer::ViewObject < Struct.new(:controller, :path, :message, :params)
+class Flyer::ViewObject
   attr_reader :params
 
   #
