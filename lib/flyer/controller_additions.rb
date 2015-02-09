@@ -8,13 +8,15 @@ module Flyer::ControllerAdditions
         Flyer::Notification.notifications.count
 
       found_notifications = []
-      Flyer::Notification.notifications.each_with_index do |n, index|
+      count = 0
+      Flyer::Notification.notifications.each do |n|
         notification = Flyer::Notification.new(self)
         n.call(notification)
         notification.validate!
-        if notification.visible? and index < limit
+        if notification.visible? and count < limit
           notification.used!
           found_notifications << notification.view
+          count += 1
         end
       end
 
