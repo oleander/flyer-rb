@@ -1,6 +1,7 @@
 module Flyer
 end
 
+require "flyer/configure"
 require "flyer/errors"
 require "flyer/controller_additions"
 require "flyer/notification"

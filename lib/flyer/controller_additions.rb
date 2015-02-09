@@ -20,6 +20,11 @@ module Flyer::ControllerAdditions
         raise Flyer::FoundNonUniqueIds.new
       end
 
+      # 
+      if limit = Flyer.settings.max_notifications
+        found_notifications = found_notifications.take(limit)
+      end
+
       found_notifications
     end
   end

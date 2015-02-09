@@ -10,6 +10,7 @@ Display user notifications in Rails programmatically.
 
 ``` ruby
 # config/initializers/flyer.rb
+# Use one init block for each notification
 Flyer::Notification.init do |config|
   # Unique id. Used to uniquely identify a notification.
   config.id = "new-user"
@@ -18,7 +19,7 @@ Flyer::Notification.init do |config|
   config.message { "Your nickname is #{current_user.nickname}" + icon("flash") }
 
   # Optional. Path to be pssed to view. Is evaluated in the controller context.
-  config.path { challenge_path }
+  config.path { root_path }
 
   # Optional. Only display notification if this blocks evaluates to true
   # The block is evaluated in the controller context.
@@ -33,6 +34,12 @@ Flyer::Notification.init do |config|
 
   # Optional. Arbitrary data to be passed to view. 
   config.params = { timeout: 10 }
+end
+
+# Global configuration
+Flyer.configure do |config|
+  # Only display one notification at the time
+  config.max_notifications = 1
 end
 ```
 

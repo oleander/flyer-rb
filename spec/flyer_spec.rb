@@ -184,4 +184,29 @@ describe Flyer::Notification do
 
     expect { visit root_path }.to raise_error(ActionView::Template::Error)
   end
+
+  context "OK" do
+    it do
+      Flyer.configure do |config|
+        config.max_notifications = 1
+      end
+
+      Flyer::Notification.init do |config|
+        config.id = "#{id}2"
+        config.message { "First" }
+        config.limit = 10
+      end
+
+      Flyer::Notification.init do |config|
+        config.id = "#{id}1"
+        config.message { "Sec" }
+        config.limit = 10
+      end
+
+      visit root_path
+
+      expect(page).to have_content("First")
+      expect(page).not_to have_content("Sec")
+    end
+  end
 end
