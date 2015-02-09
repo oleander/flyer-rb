@@ -15,7 +15,7 @@ Flyer::Notification.init do |config|
   config.id = "new-user"
 
   # Message to be passed to view. Is evaluated in the view context.
-  config.message { "Your nickname is #{current_user.nickname}" + icon "flash" }
+  config.message { "Your nickname is #{current_user.nickname}" + icon("flash") }
 
   # Optional. Path to be pssed to view. Is evaluated in the controller context.
   config.path { challenge_path }
