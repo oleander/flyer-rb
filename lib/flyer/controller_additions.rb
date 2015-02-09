@@ -4,12 +4,15 @@ module Flyer::ControllerAdditions
   #
   def notifications
     @notifications ||= begin
+      limit = Flyer.settings.max_notifications ||
+        Flyer::Notification.notifications.count
+
       found_notifications = []
-      Flyer::Notification.notifications.each do |n|
+      Flyer::Notification.notifications.each_with_index do |n, index|
         notification = Flyer::Notification.new(self)
         n.call(notification)
         notification.validate!
-        if notification.visible?
+        if notification.visible? and index < limit
           notification.used!
           found_notifications << notification.view
         end
@@ -18,11 +21,6 @@ module Flyer::ControllerAdditions
       ids = found_notifications.map(&:id)
       unless ids.uniq.count == ids.count
         raise Flyer::FoundNonUniqueIds.new
-      end
-
-      # 
-      if limit = Flyer.settings.max_notifications
-        found_notifications = found_notifications.take(limit)
       end
 
       found_notifications
